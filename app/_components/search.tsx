@@ -5,7 +5,10 @@ import { Input } from './ui/input'
 export default function Search() {
   return (
     <div className="flex gap-4">
-      <Input placeholder="Buscar restaurantes" className=" border-none" />
+      <Input
+        placeholder="Buscar restaurantes"
+        className="border-none bg-zinc-200"
+      />
       <Button size="icon">
         <SearchIcon size={20} />
       </Button>
