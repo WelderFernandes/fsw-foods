@@ -13,9 +13,9 @@ interface ProductListProps {
     }
   }>[]
 }
-export default async function ProductList({ products }: ProductListProps) {
+export default function ProductList({ products }: ProductListProps) {
   return (
-    <ScrollArea className="w-min-[200px] whitespace-nowrap px-5 backdrop-blur-3xl">
+    <ScrollArea className="w-min-[200px] whitespace-nowrap pl-5 backdrop-blur-3xl">
       <div className="flex w-max gap-3 pb-4">
         {products.map((product) => (
           <ProductItem key={product.id} product={product} />
