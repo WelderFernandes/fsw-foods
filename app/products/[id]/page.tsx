@@ -9,26 +9,28 @@ interface ProductPageProps {
   }
 }
 export default async function ProductPage({ params }: ProductPageProps) {
-  const [product, juices] = await Promise.all([
-    await db.product.findUnique({
-      where: {
-        id: params.id,
+  const product = await db.product.findUnique({
+    where: {
+      id: params.id,
+    },
+    include: {
+      restaurant: true,
+    },
+  })
+  const juices = await db.product.findMany({
+    where: {
+      category: {
+        name: 'Sucos',
       },
-      include: {
-        restaurant: true,
+      restaurant: {
+        id: product?.restaurantId,
       },
-    }),
-    await db.product.findMany({
-      where: {
-        category: {
-          name: 'Sucos',
-        },
-      },
-      include: {
-        restaurant: true,
-      },
-    }),
-  ])
+    },
+    include: {
+      restaurant: true,
+    },
+  })
+  console.log({ juices })
 
   if (!product) return notFound()
 
