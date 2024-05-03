@@ -1,8 +1,8 @@
 import { ChevronRightIcon } from 'lucide-react'
-import Image from 'next/image'
 import CategoryList from './_components/category-list'
 import Header from './_components/header'
 import ProductList from './_components/product-list'
+import PromoBanner from './_components/promo-banner'
 import Search from './_components/search'
 import { Button } from './_components/ui/button'
 import { db } from './_lib/prisma'
@@ -33,16 +33,7 @@ export default async function Home() {
         <CategoryList />
       </div>
       <div className="px-5 pt-3">
-        <Image
-          src="/promo-banner-01.png"
-          alt="Até 30% de descontos"
-          width={0}
-          height={0}
-          className="h-auto w-full object-contain"
-          sizes="( max-width: 768px ) 100vw, 768px"
-          quality={100}
-          priority={true}
-        />
+        <PromoBanner src="/promo-banner-01.png" alt="Até 30% de descontos" />
       </div>
       <div className="space-y-2 pt-6">
         <div className="flex items-center justify-between px-5">
@@ -56,6 +47,12 @@ export default async function Home() {
           </Button>
         </div>
         <ProductList products={products} />
+      </div>
+      <div className="px-5 pt-3">
+        <PromoBanner
+          src="/promo-banner-02.png"
+          alt="A Partir de R$17,90 em lanches"
+        />
       </div>
     </>
   )
