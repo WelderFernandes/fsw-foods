@@ -96,7 +96,7 @@ export default function ProductDetail({
       <div className="px-5">
         <Card className="mt-5 flex justify-around py-5">
           <div className="flex flex-col items-center">
-            <div className="flex text-muted-foreground">
+            <div className="flex gap-1 text-muted-foreground">
               <span className="text-xs">Entrega</span>
               <BikeIcon size={14} />
             </div>
@@ -109,17 +109,14 @@ export default function ProductDetail({
             )}
           </div>
           <div className="flex flex-col items-center">
-            <div className="flex text-muted-foreground">
+            <div className="flex gap-1 text-muted-foreground">
               <span className="text-xs">Entrega</span>
               <TimerIcon size={14} />
             </div>
-            {Number(product.restaurant.deliveryFee) > 0 ? (
-              <p className="text-xs font-semibold">
-                {formatCurrency(Number(product.restaurant.deliveryFee))}
-              </p>
-            ) : (
-              <p className="text-xs font-semibold">Entrega gráças</p>
-            )}
+
+            <p className="text-xs font-semibold">
+              {product.restaurant.deliveryTimeMinutes} min
+            </p>
           </div>
         </Card>
       </div>
