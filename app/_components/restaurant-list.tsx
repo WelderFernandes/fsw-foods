@@ -11,7 +11,7 @@ export default async function RestaurantList() {
           <RestaurantItem key={restaurant.id} restaurant={restaurant} />
         ))}
       </div>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" className="mx-5" />
     </ScrollArea>
   )
 }

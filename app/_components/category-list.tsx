@@ -12,7 +12,7 @@ export default async function CategoryList() {
           <CategoryItem key={category.id} category={category} />
         ))}
       </div>
-      <ScrollBar orientation="horizontal" className="px-5" />
+      <ScrollBar orientation="horizontal" className="mx-5" />
     </ScrollArea>
   )
 }

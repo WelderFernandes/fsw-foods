@@ -21,7 +21,7 @@ export default function ProductList({ products }: ProductListProps) {
           <ProductItem key={product.id} product={product} />
         ))}
       </div>
-      <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" className="mx-5" />
     </ScrollArea>
   )
 }
