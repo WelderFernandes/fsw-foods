@@ -2,16 +2,25 @@ import { Restaurant } from '@prisma/client'
 import { BikeIcon, HeartIcon, StarIcon, TimerIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ComponentProps } from 'react'
 import { formatCurrency } from '../_helpers/price'
+import { cn } from '../_lib/utils'
 import { Button } from './ui/button'
 
-interface RestaurantItemProps {
+interface RestaurantItemProps extends ComponentProps<'div'> {
   restaurant: Restaurant
 }
-export default function RestaurantItem({ restaurant }: RestaurantItemProps) {
+export default function RestaurantItem({
+  restaurant,
+  className,
+  ...props
+}: RestaurantItemProps) {
   return (
-    <Link href={`/restaurants/${restaurant.id}`}>
-      <div className="min-w-[266px] max-w-[266px] space-y-2">
+    <div
+      className={cn('min-w-[266px] max-w-[266px] space-y-2', className)}
+      {...props}
+    >
+      <Link href={`/restaurants/${restaurant.id}`}>
         <div className="relative h-[136px] w-full">
           <Image
             src={restaurant.imageUrl}
@@ -30,7 +39,7 @@ export default function RestaurantItem({ restaurant }: RestaurantItemProps) {
             <HeartIcon className="h-fit w-fit fill-white " size={16} />
           </Button>
         </div>
-        <div>
+        <div className="pt-2">
           <h3 className="text-sm font-semibold">{restaurant.name}</h3>
           <div className="flex  gap-3">
             <div className="flex items-center gap-1">
@@ -49,7 +58,7 @@ export default function RestaurantItem({ restaurant }: RestaurantItemProps) {
             </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   )
 }
