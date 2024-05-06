@@ -128,6 +128,9 @@ export default function ProductDetail({
         <h3 className="px-5 font-semibold">Sucos</h3>
         <ProductList key={product.id} products={complementaryProduct} />
       </div>
+      <div className="px-5 pt-6">
+        <Button className="w-full font-semibold">Adicionar a sacola</Button>
+      </div>
     </div>
   )
 }
