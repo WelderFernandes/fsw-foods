@@ -3,6 +3,7 @@ import DeliveryInfo from '@/app/_components/delivery-info'
 import DiscountBedge from '@/app/_components/discount-badge'
 import ProductList from '@/app/_components/product-list'
 import { Button } from '@/app/_components/ui/button'
+import { CardContext } from '@/app/_context/cart'
 import {
   calculateProductTotalPrice,
   formatCurrency,
@@ -10,7 +11,7 @@ import {
 import { Prisma } from '@prisma/client'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 interface ProductDetailProps {
   product: Prisma.ProductGetPayload<{
     include: {
@@ -28,9 +29,17 @@ export default function ProductDetail({
   complementaryProduct,
 }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
+  const { addProductToCart, products } = useContext(CardContext)
+  console.log('🚀 ~ products:', products)
+
+  function handleToCartClick() {
+    addProductToCart(product)
+  }
+
   function handleIncreaseQuantityClick() {
     setQuantity((currentState) => currentState + 1)
   }
+
   function handleDecreaseQuantityClick() {
     setQuantity((currentState) => {
       if (currentState === 0) return 0
@@ -100,7 +109,9 @@ export default function ProductDetail({
         <ProductList key={product.id} products={complementaryProduct} />
       </div>
       <div className="px-5 pt-6">
-        <Button className="w-full font-semibold">Adicionar a sacola</Button>
+        <Button onClick={handleToCartClick} className="w-full font-semibold">
+          Adicionar a sacola
+        </Button>
       </div>
     </div>
   )
