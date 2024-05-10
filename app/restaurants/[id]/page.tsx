@@ -6,6 +6,7 @@ import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import RestaurantImage from '../_components/restaurant-image'
+import CartBanner from './_components/cart-banner'
 
 interface RestaurantPageProps {
   params: {
@@ -101,6 +102,7 @@ export default async function RestaurantPage({
           <ProductList products={category.products} />
         </div>
       ))}
+      <CartBanner restaurant={restaurant} />
     </div>
   )
 }
