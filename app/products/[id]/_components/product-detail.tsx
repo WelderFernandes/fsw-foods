@@ -1,8 +1,15 @@
 'use client'
+import { Cart } from '@/app/_components/cart'
 import DeliveryInfo from '@/app/_components/delivery-info'
 import DiscountBedge from '@/app/_components/discount-badge'
 import ProductList from '@/app/_components/product-list'
 import { Button } from '@/app/_components/ui/button'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/app/_components/ui/sheet'
 import { CardContext } from '@/app/_context/cart'
 import {
   calculateProductTotalPrice,
@@ -29,11 +36,14 @@ export default function ProductDetail({
   complementaryProduct,
 }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
   const { addProductToCart, products } = useContext(CardContext)
   console.log('🚀 ~ products:', products)
 
   function handleToCartClick() {
-    addProductToCart(product)
+    addProductToCart(product, quantity)
+    setIsCartOpen(true)
   }
 
   function handleIncreaseQuantityClick() {
@@ -113,6 +123,14 @@ export default function ProductDetail({
           Adicionar a sacola
         </Button>
       </div>
+      <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
+        <SheetContent className="w-[90vw]">
+          <SheetHeader className="text-left">
+            <SheetTitle>Sacola</SheetTitle>
+          </SheetHeader>
+          <Cart />
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }
