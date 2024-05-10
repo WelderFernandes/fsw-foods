@@ -68,7 +68,8 @@ export function CardProvider({ children }: { children: ReactNode }) {
     )
   }, [products])
 
-  const totalDiscounts = subTotal - totalPrice
+  const totalDiscounts =
+    subTotal - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee)
 
   function decreeseProductQuantity(productId: string) {
     setProducts((prev) =>
