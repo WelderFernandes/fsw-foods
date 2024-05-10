@@ -18,16 +18,23 @@ interface ICardContextProps {
   subTotal: number
   totalPrice: number
   totalDiscounts: number
-  addProductToCart: (
+  addProductToCart: ({
+    product,
+    quantity,
+    emptyCart,
+  }: {
     product: Prisma.ProductGetPayload<{
       include: {
         restaurant: {
-          select: { deliveryFee: true }
+          select: {
+            deliveryFee: true
+          }
         }
       }
-    }>,
-    quantity: number,
-  ) => void
+    }>
+    quantity: number
+    emptyCart?: boolean
+  }) => void
   decreeseProductQuantity: (productId: string) => void
   increeseProductQuantity: (productId: string) => void
   removeProduct: (productId: string) => void
@@ -54,9 +61,11 @@ export function CardProvider({ children }: { children: ReactNode }) {
   }, [products])
 
   const totalPrice = useMemo(() => {
-    return products.reduce((acc, product) => {
-      return acc + calculateProductTotalPrice(product) * product.quantity
-    }, 0)
+    return (
+      products.reduce((acc, product) => {
+        return acc + calculateProductTotalPrice(product) * product.quantity
+      }, 0) + Number(products?.[0]?.restaurant?.deliveryFee)
+    )
   }, [products])
 
   const totalDiscounts = subTotal - totalPrice
@@ -87,19 +96,30 @@ export function CardProvider({ children }: { children: ReactNode }) {
   function removeProduct(productId: string) {
     setProducts((prev) => prev.filter((product) => product.id !== productId))
   }
-  function addProductToCart(
+
+  function addProductToCart({
+    product,
+    quantity,
+    emptyCart,
+  }: {
     product: Prisma.ProductGetPayload<{
       include: {
         restaurant: {
           select: { deliveryFee: true }
         }
       }
-    }>,
-    quantity: number,
-  ) {
+    }>
+    quantity: number
+    emptyCart?: boolean
+  }) {
+    if (emptyCart) {
+      setProducts([])
+    }
+
     const isProductInCart = products.some(
       (cartProduct) => cartProduct.id === product.id,
     )
+
     if (isProductInCart) {
       return setProducts((prev) =>
         prev.map((cartProduct) => {

@@ -3,6 +3,16 @@ import { Cart } from '@/app/_components/cart'
 import DeliveryInfo from '@/app/_components/delivery-info'
 import DiscountBedge from '@/app/_components/discount-badge'
 import ProductList from '@/app/_components/product-list'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/app/_components/ui/alert-dialog'
 import { Button } from '@/app/_components/ui/button'
 import {
   Sheet,
@@ -37,13 +47,26 @@ export default function ProductDetail({
 }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
+    useState(false)
 
   const { addProductToCart, products } = useContext(CardContext)
   console.log('🚀 ~ products:', products)
 
-  function handleToCartClick() {
-    addProductToCart(product, quantity)
+  function AddToCart({ emptyCart }: { emptyCart?: boolean }) {
+    setIsConfirmationDialogOpen(false)
+    addProductToCart({ product, quantity, emptyCart })
     setIsCartOpen(true)
+  }
+
+  function handleAddToCartClick() {
+    const hasDiferentRestaurantProducts = products.some(
+      (cardProduct) => cardProduct.restaurantId !== product.restaurantId,
+    )
+    if (hasDiferentRestaurantProducts) {
+      return setIsConfirmationDialogOpen(true)
+    }
+    AddToCart({ emptyCart: false })
   }
 
   function handleIncreaseQuantityClick() {
@@ -72,7 +95,6 @@ export default function ProductDetail({
           {product.restaurant.name}
         </span>
       </div>
-
       <h1 className="mb-2 mt-1 px-5 text-xl font-semibold">{product.name}</h1>
       <div className="flex justify-between px-5">
         <div>
@@ -119,7 +141,7 @@ export default function ProductDetail({
         <ProductList key={product.id} products={complementaryProduct} />
       </div>
       <div className="px-5 pt-6">
-        <Button onClick={handleToCartClick} className="w-full font-semibold">
+        <Button onClick={handleAddToCartClick} className="w-full font-semibold">
           Adicionar a sacola
         </Button>
       </div>
@@ -131,6 +153,29 @@ export default function ProductDetail({
           <Cart />
         </SheetContent>
       </Sheet>
+      <AlertDialog open={isConfirmationDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Você só pode adicionar itens de outro restaurante por
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Deseja mesmo adicionar esses produtos a sua sacola?
+              <p>Isso farar com que a sacola do restaurante seja esvaziada</p>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel
+              onClick={() => setIsConfirmationDialogOpen(false)}
+            >
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => AddToCart({ emptyCart: true })}>
+              Esvaziar sacola e adicionar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
