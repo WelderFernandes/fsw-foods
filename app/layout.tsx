@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { CardProvider } from './_context/cart'
+import AuthProvider from './_providers/auth'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <CardProvider>{children}</CardProvider>
+        <AuthProvider>
+          <CardProvider>{children}</CardProvider>
+        </AuthProvider>
       </body>
     </html>
   )
