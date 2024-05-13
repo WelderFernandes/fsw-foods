@@ -7,7 +7,7 @@ export interface CartProduct
   extends Prisma.ProductGetPayload<{
     include: {
       restaurant: {
-        select: { deliveryFee: true }
+        select: { id: true; deliveryTimeMinutes: true; deliveryFee: true }
       }
     }
   }> {
@@ -15,9 +15,9 @@ export interface CartProduct
 }
 interface ICardContextProps {
   products: CartProduct[]
-  subTotal: number
+  subTotalPrice: number
   totalPrice: number
-  totalDiscounts: number
+  totalDiscount: number
   totalQuantity: number
   addProductToCart: ({
     product,
@@ -27,9 +27,7 @@ interface ICardContextProps {
     product: Prisma.ProductGetPayload<{
       include: {
         restaurant: {
-          select: {
-            deliveryFee: true
-          }
+          select: { id: true; deliveryTimeMinutes: true; deliveryFee: true }
         }
       }
     }>
@@ -39,24 +37,26 @@ interface ICardContextProps {
   decreeseProductQuantity: (productId: string) => void
   increeseProductQuantity: (productId: string) => void
   removeProduct: (productId: string) => void
+  clearCart: () => void
 }
 
 export const CardContext = createContext<ICardContextProps>({
   products: [],
-  subTotal: 0,
+  subTotalPrice: 0,
   totalPrice: 0,
-  totalDiscounts: 0,
+  totalDiscount: 0,
   totalQuantity: 0,
   addProductToCart: () => {},
   decreeseProductQuantity: () => {},
   increeseProductQuantity: () => {},
   removeProduct: () => {},
+  clearCart: () => {},
 })
 
 export function CardProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<CartProduct[]>([])
 
-  const subTotal = useMemo(() => {
+  const subTotalPrice = useMemo(() => {
     return products.reduce((acc, product) => {
       return acc + Number(product.price) * product.quantity
     }, 0)
@@ -76,8 +76,8 @@ export function CardProvider({ children }: { children: ReactNode }) {
     }, 0)
   }, [products])
 
-  const totalDiscounts =
-    subTotal - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee)
+  const totalDiscount =
+    subTotalPrice - totalPrice + Number(products?.[0]?.restaurant?.deliveryFee)
 
   function decreeseProductQuantity(productId: string) {
     setProducts((prev) =>
@@ -114,7 +114,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
     product: Prisma.ProductGetPayload<{
       include: {
         restaurant: {
-          select: { deliveryFee: true }
+          select: { deliveryFee: true; deliveryTimeMinutes: true; id: true }
         }
       }
     }>
@@ -142,18 +142,23 @@ export function CardProvider({ children }: { children: ReactNode }) {
     setProducts((prev) => [...prev, { ...product, quantity }])
   }
 
+  function clearCart() {
+    setProducts([])
+  }
+
   return (
     <CardContext.Provider
       value={{
         products,
-        subTotal,
+        subTotalPrice,
         totalPrice,
         totalQuantity,
-        totalDiscounts,
+        totalDiscount,
         addProductToCart,
         decreeseProductQuantity,
         increeseProductQuantity,
         removeProduct,
+        clearCart,
       }}
     >
       {children}
