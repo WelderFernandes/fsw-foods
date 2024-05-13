@@ -31,6 +31,7 @@ export function Cart() {
   async function HandleFinishOrderClick() {
     if (!data) return
     const restaurant = products?.[0].restaurant
+
     try {
       setIsSubmitLoading(true)
       await CreateOrder({
@@ -48,6 +49,14 @@ export function Cart() {
         user: {
           connect: {
             id: data.user.id,
+          },
+        },
+        orderProducts: {
+          createMany: {
+            data: products.map((product) => ({
+              productId: product.id,
+              quantity: product.quantity,
+            })),
           },
         },
       })
