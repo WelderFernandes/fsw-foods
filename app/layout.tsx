@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Toaster } from './_components/ui/sonner'
 import { CardProvider } from './_context/cart'
 import AuthProvider from './_providers/auth'
 import './globals.css'
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthProvider>
           <CardProvider>{children}</CardProvider>
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

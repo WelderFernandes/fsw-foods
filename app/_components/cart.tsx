@@ -2,10 +2,13 @@ import { OrderStatus } from '@prisma/client'
 import { Loader2Icon } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useContext, useState } from 'react'
+import { toast } from 'sonner'
 import CreateOrder from '../_actions/order'
 import { CardContext } from '../_context/cart'
 import { formatCurrency } from '../_helpers/price'
 import { CartItem } from './cart-item'
+
+import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,13 +23,19 @@ import { Button } from './ui/button'
 import { Card, CardContent } from './ui/card'
 import { Separator } from './ui/separator'
 
-export function Cart() {
+interface CartProps {
+  setIsOpen: (isOpen: boolean) => void
+}
+
+export function Cart({ setIsOpen }: CartProps) {
   const { data } = useSession()
   const { products, subTotalPrice, totalDiscount, totalPrice, clearCart } =
     useContext(CardContext)
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] =
     useState(false)
+
+  const router = useRouter()
 
   async function HandleFinishOrderClick() {
     if (!data) return
@@ -61,6 +70,19 @@ export function Cart() {
         },
       })
       clearCart()
+      setIsOpen(false)
+      toast('Pedido realizado com sucesso', {
+        style: {
+          color: 'text-primary',
+          backgroundColor: 'primary',
+        },
+        description:
+          'Voce pode acompanhar o status do seu pedido na tela de seus pedidos pedidos.',
+        action: {
+          label: 'Meus pedidos',
+          onClick: () => router.push('/my-orders'),
+        },
+      })
     } catch (error) {
       console.log(error)
     } finally {

@@ -150,7 +150,7 @@ export default function ProductDetail({
           <SheetHeader className="text-left">
             <SheetTitle>Sacola</SheetTitle>
           </SheetHeader>
-          <Cart />
+          <Cart setIsOpen={setIsCartOpen} />
         </SheetContent>
       </Sheet>
       <AlertDialog open={isConfirmationDialogOpen}>
