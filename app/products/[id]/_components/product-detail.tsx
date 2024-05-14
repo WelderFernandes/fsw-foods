@@ -51,7 +51,6 @@ export default function ProductDetail({
     useState(false)
 
   const { addProductToCart, products } = useContext(CardContext)
-  console.log('🚀 ~ products:', products)
 
   function AddToCart({ emptyCart }: { emptyCart?: boolean }) {
     setIsConfirmationDialogOpen(false)
