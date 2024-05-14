@@ -6,13 +6,12 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from '@/app/_components/ui/sheet'
 import { CardContext } from '@/app/_context/cart'
 import { formatCurrency } from '@/app/_helpers/price'
 import { Restaurant } from '@prisma/client'
 import { ShoppingBagIcon } from 'lucide-react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 interface CartBannerProps {
   restaurant: Pick<Restaurant, 'id'>
@@ -20,6 +19,7 @@ interface CartBannerProps {
 
 export default function CartBanner({ restaurant }: CartBannerProps) {
   const { products, totalPrice, totalQuantity } = useContext(CardContext)
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   const RestaurantHasProducts = products.some(
     (product) => product.restaurantId === restaurant.id,
@@ -44,20 +44,18 @@ export default function CartBanner({ restaurant }: CartBannerProps) {
               </span>
             </h3>
           </div>
-          <Sheet>
-            <SheetTrigger>
-              <Button>
-                <div className="flex items-center justify-center gap-2">
-                  <ShoppingBagIcon />
-                  <span>Sacola</span>
-                </div>
-              </Button>
-            </SheetTrigger>
+          <Button asChild onClick={() => setIsCartOpen(true)}>
+            <div className="flex items-center justify-center gap-2">
+              <ShoppingBagIcon />
+              <span>Sacola</span>
+            </div>
+          </Button>
+          <Sheet open={isCartOpen} onOpenChange={setIsCartOpen}>
             <SheetContent className="w-[90vw]">
               <SheetHeader className="text-left">
                 <SheetTitle>Sacola</SheetTitle>
               </SheetHeader>
-              <Cart />
+              <Cart setIsOpen={setIsCartOpen} />
             </SheetContent>
           </Sheet>
         </div>

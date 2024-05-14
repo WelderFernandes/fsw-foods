@@ -1,5 +1,6 @@
 {
   "extends": ["@rocketseat/eslint-config/next", "next/core-web-vitals"],
+  "ignorePatterns": ["app/_components/ui"],
   "rules": {
     "no-unused-vars": "error"
   }

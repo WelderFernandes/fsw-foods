@@ -114,7 +114,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
     product: Prisma.ProductGetPayload<{
       include: {
         restaurant: {
-          select: { deliveryFee: true; deliveryTimeMinutes: true; id: true }
+          select: { id: true; deliveryTimeMinutes: true; deliveryFee: true }
         }
       }
     }>
