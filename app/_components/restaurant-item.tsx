@@ -22,6 +22,7 @@ export default function RestaurantItem({
   ...props
 }: RestaurantItemProps) {
   const { data } = useSession()
+
   const isFavorite = userFavorites.some(
     (favorite) => favorite.restaurantId === restaurant.id,
   )

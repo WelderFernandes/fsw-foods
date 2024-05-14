@@ -26,6 +26,7 @@ export default function CartBanner({ restaurant }: CartBannerProps) {
   )
 
   if (!RestaurantHasProducts) return null
+
   return (
     <div className="min-h-24">
       <div className="fixed bottom-0 left-0 z-50 w-full border-t  border-solid border-muted-foreground bg-white p-5 pt-3 shadow-2xl">

@@ -3,6 +3,7 @@ import ProductList from '@/app/_components/product-list'
 import { ScrollArea, ScrollBar } from '@/app/_components/ui/scroll-area'
 import { db } from '@/app/_lib/prisma'
 import { StarIcon } from 'lucide-react'
+import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import RestaurantImage from '../_components/restaurant-image'
@@ -53,9 +54,21 @@ export default async function RestaurantPage({
     },
   })
   if (!restaurant) return notFound()
+
+  const session = await getServerSession()
+
+  const useFavoriteRestaurants = await db.userFavoriteRestaurant.findMany({
+    where: {
+      userId: session?.user?.id,
+    },
+  })
+
   return (
     <div className="h-screen bg-white">
-      <RestaurantImage restaurant={restaurant} />
+      <RestaurantImage
+        restaurant={restaurant}
+        userFavoritesRestaurant={useFavoriteRestaurants}
+      />
       <div className="relative z-50 mt-[-1.5rem] flex items-center justify-between rounded-t-2xl bg-white px-5 py-5 pt-5">
         <div className="item-center flex gap-[0.75rem]">
           <div className="relative h-8 w-8">

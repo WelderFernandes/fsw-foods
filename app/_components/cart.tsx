@@ -72,10 +72,6 @@ export function Cart({ setIsOpen }: CartProps) {
       clearCart()
       setIsOpen(false)
       toast('Pedido realizado com sucesso', {
-        style: {
-          color: 'text-primary',
-          backgroundColor: 'primary',
-        },
         description:
           'Voce pode acompanhar o status do seu pedido na tela de seus pedidos pedidos.',
         action: {
