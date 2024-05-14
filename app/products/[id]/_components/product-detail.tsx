@@ -55,7 +55,7 @@ export default function ProductDetail({
 
   function AddToCart({ emptyCart }: { emptyCart?: boolean }) {
     setIsConfirmationDialogOpen(false)
-    addProductToCart({ product, quantity, emptyCart })
+    addProductToCart({ product: { ...product, quantity }, emptyCart })
     setIsCartOpen(true)
   }
 
