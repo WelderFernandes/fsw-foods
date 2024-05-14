@@ -107,11 +107,14 @@ export default function Header() {
                   </Link>
                 </Button>
                 <Button
+                  asChild
                   variant={'ghost'}
                   className="w-full justify-start space-x-3 rounded-full text-left text-sm font-normal"
                 >
-                  <HeartIcon size={16} />
-                  <span className="block">Restaurantes favoritos</span>
+                  <Link href="/my-favorite-restaurants">
+                    <HeartIcon size={16} />
+                    <span className="block">Restaurantes favoritos</span>
+                  </Link>
                 </Button>
               </div>
               <div className="py-6">
