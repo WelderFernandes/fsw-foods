@@ -25,6 +25,7 @@ export default async function Home() {
     },
     take: 10,
   })
+
   return (
     <>
       <Header />
@@ -35,7 +36,9 @@ export default async function Home() {
         <CategoryList />
       </div>
       <div className="px-5 pt-3">
-        <PromoBanner src="/promo-banner-01.png" alt="Até 30% de descontos" />
+        <Link href="/products/recomended">
+          <PromoBanner src="/promo-banner-01.png" alt="Até 30% de descontos" />
+        </Link>
       </div>
       <div className="space-y-2 pt-6">
         <div className="flex items-center justify-between px-5">
