@@ -10,6 +10,7 @@ import {
 } from 'lucide-react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { TypeAnimation } from 'react-type-animation'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
@@ -33,11 +34,26 @@ export default function Header() {
   }
 
   return (
-    <div className="flex justify-between px-5 pt-6">
-      <div className="relative h-[30px] w-[200px] ">
+    <div className="flex items-center justify-between px-5 pt-6">
+      <div className="relative h-[30px] w-[500px] ">
         <Link href="/">
-          <div className="flex items-center gap-2 font-semibold text-primary">
-            <span className="text-xl">Best Food</span>
+          <div className="flex items-center gap-2  text-xs font-semibold text-primary">
+            <TypeAnimation
+              sequence={[
+                'Best', // Types 'One'
+                2000, // Waits 1s
+                'Best Food', // Deletes 'One' and types 'Two'
+                4000, // Waits 2s
+                'Best Delivery',
+                () => {
+                  console.log('Sequence completed')
+                },
+              ]}
+              wrapper="span"
+              cursor={true}
+              repeat={Infinity}
+              style={{ fontSize: '2em', display: 'inline-block' }}
+            />
             <ChefHatIcon className="hover:fill-primary" />
           </div>
         </Link>
