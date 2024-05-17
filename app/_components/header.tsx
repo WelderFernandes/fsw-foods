@@ -1,5 +1,6 @@
 'use client'
 import {
+  ChefHatIcon,
   HeartIcon,
   HomeIcon,
   LogInIcon,
@@ -8,7 +9,6 @@ import {
   ScrollTextIcon,
 } from 'lucide-react'
 import { signIn, signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
@@ -34,12 +34,14 @@ export default function Header() {
 
   return (
     <div className="flex justify-between px-5 pt-6">
-      <div className="relative h-[30px] w-[100px]">
+      <div className="relative h-[30px] w-[200px] ">
         <Link href="/">
-          <Image src="/logo.png" alt="logo" fill className="object-cover" />
+          <div className="flex items-center gap-2 font-semibold text-primary">
+            <span className="text-xl">Best Food</span>
+            <ChefHatIcon className="hover:fill-primary" />
+          </div>
         </Link>
       </div>
-
       <Sheet>
         <SheetTrigger asChild>
           <Button
