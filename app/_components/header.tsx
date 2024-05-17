@@ -39,12 +39,17 @@ export default function Header() {
         <Link href="/">
           <div className="flex items-center gap-2  text-xs font-semibold text-primary">
             <TypeAnimation
+              speed={50}
               sequence={[
                 'Best', // Types 'One'
                 2000, // Waits 1s
                 'Best Food', // Deletes 'One' and types 'Two'
-                4000, // Waits 2s
+                2000, // Waits 2s
+                'Best',
+                1000, // Waits 2s
                 'Best Delivery',
+                2000, // Waits 2s
+
                 () => {
                   console.log('Sequence completed')
                 },
